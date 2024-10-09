@@ -1,7 +1,7 @@
 import {createConnection} from "./db";
 import {RowDataPacket} from "mysql2";
 
-export async function getTranslation(key: string, locale: string){
+export async function getTranslation(key: string, locale: string) {
     const connection = await createConnection()
 
     const query = `select 
@@ -13,5 +13,19 @@ export async function getTranslation(key: string, locale: string){
     const data = (await connection.query<RowDataPacket[]>(query, values))[0]
     await connection.end()
 
-    return (data[0] || {text_value: key}).text_value as string
+    return {
+        success: !!data[0],
+        translated: (data[0] || {text_value: key}).text_value as string
+    }
+}
+
+export async function insertTranslation(key: string, locale: string, value: string) {
+    const connection = await createConnection()
+
+    const query = `INSERT INTO t001 (spras, text_key, text_value) VALUES (?, ?, ?);`
+    const values = [locale, key, value]
+    const res = await connection.execute(query, values)
+
+    connection.end()
+    return res
 }

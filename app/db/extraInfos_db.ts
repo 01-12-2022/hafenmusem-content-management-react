@@ -1,6 +1,7 @@
-import { Connection, RowDataPacket } from "mysql2/promise";
-import { Item } from "./dbTypes";
-import { createConnection } from '@/app/db/db'
+'use server'
+import {Connection, RowDataPacket} from "mysql2/promise";
+import {Item} from "./dbTypes";
+import {createConnection} from '@/app/db/db'
 
 export async function getInformationCategoriesForItem(item: Item, routeKey?: string) {
     const connection = await createConnection()
@@ -9,12 +10,10 @@ export async function getInformationCategoriesForItem(item: Item, routeKey?: str
 
     const infoCategories = await getInfoCategoriesForItem(connection, item.id)
 
-    const data = {
+    return {
         routeData,
         infoCategories
     }
-
-    return data
 }
 
 async function getInfoCategoriesForItem(connection: Connection, itemId: number) {

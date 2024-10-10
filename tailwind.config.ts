@@ -58,13 +58,14 @@ const config: Config = {
     		}
     	},
     	container: {
-    		center: 'true',
+    		center: true,
     		padding: '2rem',
     		screens: {
     			'2xl': '1400px'
     		}
     	}
     },
+	// eslint-disable-next-line @typescript-eslint/no-require-imports
     plugins: [require("tailwindcss-animate")],
 };
 export default config;

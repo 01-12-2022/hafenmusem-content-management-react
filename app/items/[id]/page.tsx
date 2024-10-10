@@ -4,9 +4,8 @@ import {getInformationCategoriesForItem} from "@/app/db/extraInfos_db";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {ArrowLeft} from "lucide-react";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import React from "react";
-import TranslatedText from "@/components/TranslatedText";
+import {ItemPageContent} from "@/app/items/[id]/itemPageContent";
 
 export default async function Page({params, searchParams}: PageParams<{ id: string }>) {
     const locale = searchParams.locale || 'de'
@@ -32,56 +31,5 @@ export default async function Page({params, searchParams}: PageParams<{ id: stri
         )
     }
 
-    return (
-        <div className="container mx-auto p-4">
-            <Link href="/" passHref>
-                <Button variant="ghost" className="mb-4">
-                    <ArrowLeft className="mr-2 h-4 w-4"/> Back to Items
-                </Button>
-            </Link>
-            <Card className="w-full max-w-3xl mx-auto">
-                <CardHeader>
-                    <div className="flex justify-between items-start">
-                        <div>
-                            <CardTitle className="text-3xl mb-2">
-                                <TranslatedText locale={locale} stringKey={item.name}/>
-                            </CardTitle>
-                            <CardDescription className="text-lg">
-                                <TranslatedText locale={locale} stringKey={item.description}/>
-                            </CardDescription>
-                        </div>
-                        {/*{item.routeInfo && (*/}
-                        {/*    <Badge variant="secondary" className="text-sm">*/}
-                        {/*        Location: {item.routeInfo}*/}
-                        {/*    </Badge>*/}
-                        {/*)}*/}
-                    </div>
-                </CardHeader>
-                {/*<CardContent>*/}
-                {/*    <div className="grid gap-4 md:grid-cols-2">*/}
-                {/*        {item.infoCategories.map((category, index) => (*/}
-                {/*            <div key={index} className="space-y-1">*/}
-                {/*                <h3 className="font-semibold text-sm uppercase text-muted-foreground">{category.title}</h3>*/}
-                {/*                <p>{category.content}</p>*/}
-                {/*            </div>*/}
-                {/*        ))}*/}
-                {/*    </div>*/}
-                {/*</CardContent>*/}
-            </Card>
-
-            {/*route info card*/}
-            {!info.routeData
-                ? <Card>No Route Data!!</Card>
-                : <Card>
-                    <CardHeader><TranslatedText locale={locale} stringKey={info.routeData.key}/></CardHeader>
-                    <CardContent><TranslatedText locale={locale} stringKey={info.routeData.value}/></CardContent>
-                </Card>
-            }
-
-            {/*info category card*/}
-            <Card>
-
-            </Card>
-        </div>
-    )
+    return <ItemPageContent item={item} info={info} locale={locale} route={route}/>
 }

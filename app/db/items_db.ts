@@ -1,3 +1,4 @@
+'use server'
 import {RowDataPacket} from "mysql2"
 import {createConnection} from "./db"
 import {Item} from "./dbTypes"

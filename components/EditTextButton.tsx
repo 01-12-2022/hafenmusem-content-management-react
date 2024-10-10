@@ -2,29 +2,37 @@
 import {TranslationProps} from "@/components/TranslatedText";
 import {EditIcon, PlusIcon} from "lucide-react";
 import {EditButtonTypes as ButtonTypes} from "@/app/constants";
-import PopupModal from "@/components/PopupModal";
-import {useState} from "react";
+import usePopup from "@/components/PopupModal";
 
 type EditTextButtonProps = TranslationProps & {
     variant: ButtonTypes
+    value: string
 }
-export default function EditTextButton({locale, stringKey, variant}: EditTextButtonProps) {
-    const [modalOpen, setModalOpen] = useState(false);
+export default function EditTextButton({
+                                                 variant,
+                                                 fieldName,
+                                                 value,
+                                                 context,
+                                                 locale,
+                                                 stringKey
+                                             }: EditTextButtonProps) {
+    const popupModal = usePopup({
+        locale,
+        stringKey,
+        variant: variant === ButtonTypes.add ? "insert" : "update",
+        fieldName,
+        oldValue: value,
+        context
+    })
 
-    if (variant == ButtonTypes.add)
-        return (<button onClick={() => setModalOpen(true)}>
-            <PlusIcon/>
-            <PopupModal isVisible={modalOpen} hideModal={()=>setModalOpen(false)}>
-                <h1>Add Modal!!</h1>
-                <p>Content</p>
-            </PopupModal>
-        </button>)
+    const showModal = () => popupModal?.setVisible(true)
 
-    return <button onClick={() => setModalOpen(true)}>
-        <EditIcon/>
-        <PopupModal isVisible={modalOpen} hideModal={()=>setModalOpen(false)}>
-            <h1>Edit Modal!!</h1>
-            <p>Edit content etc</p>
-        </PopupModal>
+    return <button onClick={showModal}>
+
+        {variant === ButtonTypes.edit
+            ? <EditIcon/>
+            : <PlusIcon/>}
+
+        {popupModal?.component}
     </button>
 }

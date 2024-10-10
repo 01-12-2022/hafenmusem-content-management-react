@@ -1,4 +1,4 @@
-'use client'
+'use server'
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {ArrowLeft} from "lucide-react";
@@ -7,7 +7,7 @@ import TranslatedText from "@/components/TranslatedText";
 import React from "react";
 import {Item} from "@/app/db/dbTypes";
 import {getInformationCategoriesForItem} from "@/app/db/extraInfos_db";
-import {AsyncReturnType} from "@/lib/utils";
+import {AsyncReturnType, getContextForItem} from "@/lib/utils";
 
 type ItemPageContentProps = {
     locale: string
@@ -16,12 +16,12 @@ type ItemPageContentProps = {
     info: AsyncReturnType<typeof getInformationCategoriesForItem>
 }
 
-export function ItemPageContent({locale, item, route, info}: ItemPageContentProps) {
-    const itemContext = `Item ${item.name}`
+export async function ItemPageContent({locale, item, route, info}: ItemPageContentProps) {
+    const itemContext = getContextForItem(item);
     const routeContext = `Route ${route}`
 
     return (<div className="container mx-auto p-4">
-        <Link href="/" passHref>
+        <Link href="/items" passHref>
             <Button variant="ghost" className="mb-4">
                 <ArrowLeft className="mr-2 h-4 w-4"/> Back to Items
             </Button>
@@ -51,6 +51,7 @@ export function ItemPageContent({locale, item, route, info}: ItemPageContentProp
                 <CardHeader>
                     <TranslatedText locale={locale} stringKey={info.routeData.key}
                                     context={itemContext + "\n" + routeContext} fieldName="was"
+                                    isEditable={false}
                     />
                 </CardHeader>
                 <CardContent>

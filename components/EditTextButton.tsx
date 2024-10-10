@@ -8,7 +8,7 @@ type EditTextButtonProps = TranslationProps & {
     variant: ButtonTypes
     value: string
 }
-export default function EditTextButton({
+export function EditTextButton({
                                                  variant,
                                                  fieldName,
                                                  value,

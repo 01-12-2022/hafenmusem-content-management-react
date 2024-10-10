@@ -1,3 +1,4 @@
+'use server'
 import {PageParams} from "@/app/constants";
 import {getSingleItemFromId} from "@/app/db/items_db";
 import {getInformationCategoriesForItem} from "@/app/db/extraInfos_db";

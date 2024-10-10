@@ -3,7 +3,8 @@ import React, {CSSProperties, useState} from "react";
 import {Card} from "@/components/ui/card";
 import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 import {TranslationProps} from "@/components/TranslatedText";
-import {updateTranslation, insertTranslation} from '@/app/actions'
+import {insertTranslationFromForm, updateTranslationFromForm} from "@/app/actions";
+import {revalidatePath} from "next/cache";
 
 type ModalProps = TranslationProps & {
     variant: "insert" | "update"
@@ -21,7 +22,10 @@ export default function usePopup({context, variant, oldValue, fieldName, locale,
         setVisible(false)
     }
 
-    const onSubmit = () => {
+    async function onSubmit(data: FormData) {
+        const updateFunction = (variant === "insert") ? insertTranslationFromForm : updateTranslationFromForm
+
+        await updateFunction(locale, stringKey, data)
         hideModal(undefined)
     }
 
@@ -31,34 +35,34 @@ export default function usePopup({context, variant, oldValue, fieldName, locale,
             : (<>
                     <div style={styles.modalContainer} onClick={hideModal}/>
                     <Card style={styles.modal}>
-                        <div style={styles.closeIconContainer} onClick={hideModal}>
-                            <CloseIcon/>
-                        </div>
-                        <div style={styles.modalContent}>
-                            <h3>{context}</h3>
-                            {variant === "insert" ?
-                                <>
-                                    <h2>Value for {fieldName}:</h2>
-                                    <input value={newValue} onChange={e => setNewValue(e.currentTarget.value)}/>
-                                </> : null
-                            }
-                            {variant === "update" ?
-                                <>
-                                    <h2>Old value for {fieldName}:</h2>
-                                    <input contentEditable={false} value={oldValue}/>
-                                    <div style={{height: 10}}/>
-                                    <h2>New value for {fieldName}:</h2>
-                                    <input value={newValue} onChange={e => setNewValue(e.currentTarget.value)}/>
-                                </> : null
+                        <form action={onSubmit}>
+                            <div style={styles.closeIconContainer} onClick={hideModal}>
+                                <CloseIcon/>
+                            </div>
+                            <div style={styles.modalContent}>
+                                <h3>{context}</h3>
+                                {variant === "insert" ?
+                                    <>
+                                        <h2>Value for {fieldName}:</h2>
+                                        <textarea style={styles.textarea} name='newValue' value={newValue}
+                                                  onChange={e => setNewValue(e.currentTarget.value)}/>
+                                    </> : null
+                                }
+                                {variant === "update" ?
+                                    <>
+                                        <h2>Old value for {fieldName}:</h2>
+                                        <textarea style={styles.textarea} disabled={true} contentEditable={false}
+                                                  value={oldValue}/>
+                                        <div style={styles.spacer}/>
+                                        <h2>New value for {fieldName}:</h2>
+                                        <textarea style={styles.textarea} name="newValue" value={newValue}
+                                                  onChange={e => setNewValue(e.currentTarget.value)}/>
+                                    </> : null
 
-                            }
-                            {variant === "insert"
-                                ? <button formAction={() => insertTranslation(locale, stringKey, newValue)}
-                                          onClick={onSubmit}>Save</button>
-                                : <button formAction={() => updateTranslation(locale, stringKey, newValue)}
-                                          onClick={onSubmit}>Save</button>
-                            }
-                        </div>
+                                }
+                                <button type={'submit'}>Save</button>
+                            </div>
+                        </form>
                     </Card>
                 </>
             )
@@ -82,6 +86,7 @@ const styles = {
         justifyContent: 'center',
         display: 'flex',
         flexDirection: 'column',
+        cursor: 'default',
     } as CSSProperties,
     modal: {
         cursor: 'default',
@@ -99,9 +104,20 @@ const styles = {
         alignSelf: 'flex-end',
         justifyContent: 'flex-end',
     } as CSSProperties,
+    spacer: {
+        height: 20
+    } as CSSProperties,
     modalContent: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        gap: 15,
+        width: 600,
+        maxHeight: 800,
+    } as CSSProperties,
+    textarea: {
+        height: 300,//'auto',
+        maxHeight: 100,
+        margin: 5
     } as CSSProperties
 }

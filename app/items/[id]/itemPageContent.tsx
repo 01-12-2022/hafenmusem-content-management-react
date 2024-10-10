@@ -20,23 +20,18 @@ export async function ItemPageContent({locale, item, route, info}: ItemPageConte
     const itemContext = getContextForItem(item);
     const routeContext = `Route ${route}`
 
-    return (<div className="container mx-auto p-4">
-        <Link href="/items" passHref>
-            <Button variant="ghost" className="mb-4">
-                <ArrowLeft className="mr-2 h-4 w-4"/> Back to Items
-            </Button>
-        </Link>
+    return (<>
         <Card className="w-full max-w-3xl mx-auto">
             <CardHeader>
                 <div className="flex justify-between items-start">
                     <div>
                         <CardTitle className="text-3xl mb-2">
                             <TranslatedText locale={locale} stringKey={item.name} context={itemContext}
-                                            fieldName="Name"/>
+                                            fieldName="Name" isEditable/>
                         </CardTitle>
                         <CardDescription className="text-lg">
                             <TranslatedText locale={locale} stringKey={item.description} context={itemContext}
-                                            fieldName="Description"/>
+                                            fieldName="Description" isEditable/>
                         </CardDescription>
                     </div>
 
@@ -44,30 +39,33 @@ export async function ItemPageContent({locale, item, route, info}: ItemPageConte
             </CardHeader>
         </Card>
 
-        {/*route info card*/}
-        {!info.routeData
-            ? <Card>No Route Data!!</Card>
-            : <Card>
-                <CardHeader>
-                    <TranslatedText locale={locale} stringKey={info.routeData.key}
-                                    context={itemContext + "\n" + routeContext} fieldName="was"
-                                    isEditable={false}
-                    />
-                </CardHeader>
-                <CardContent>
-                    <TranslatedText locale={locale} stringKey={info.routeData.value}
-                                    context={itemContext + "\n" + routeContext} fieldName="Item route Info"
-                    />
-                </CardContent>
-            </Card>
+        {/*route info card*/
+        }
+        {
+            !info.routeData
+                ? <Card>No Route Data!!</Card>
+                : <Card>
+                    <CardHeader>
+                        <TranslatedText locale={locale} stringKey={info.routeData.key} isForDisplay/>
+                    </CardHeader>
+                    <CardContent>
+                        <TranslatedText locale={locale} stringKey={info.routeData.value}
+                                        context={itemContext + "\n" + routeContext} fieldName="Item route Info"
+                                        isEditable
+                        />
+                    </CardContent>
+                </Card>
         }
 
-        {/*info category card*/}
-        {info.infoCategories.map((ic, i) => (
-            <Card key={ic.infoType + i}>
-                <CardHeader>{ic.infoType}</CardHeader>
-                <CardDescription>{ic.infoValue}</CardDescription>
-            </Card>
-        ))}
-    </div>)
+        {/*info category card*/
+        }
+        {
+            info.infoCategories.map((ic, i) => (
+                <Card key={ic.infoType + i}>
+                    <CardHeader>{ic.infoType}</CardHeader>
+                    <CardDescription>{ic.infoValue}</CardDescription>
+                </Card>
+            ))
+        }
+    </>)
 }

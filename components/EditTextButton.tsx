@@ -4,18 +4,23 @@ import {EditIcon, PlusIcon} from "lucide-react";
 import {EditButtonTypes as ButtonTypes} from "@/app/constants";
 import usePopup from "@/components/PopupModal";
 
-type EditTextButtonProps = TranslationProps & {
+type EditTextButtonProps = {
+    fieldName: string,
+    context: string,
+    locale: string,
+    stringKey: string,
     variant: ButtonTypes
     value: string
 }
+
 export function EditTextButton({
-                                                 variant,
-                                                 fieldName,
-                                                 value,
-                                                 context,
-                                                 locale,
-                                                 stringKey
-                                             }: EditTextButtonProps) {
+                                   variant,
+                                   fieldName,
+                                   value,
+                                   context,
+                                   locale,
+                                   stringKey
+                               }: EditTextButtonProps) {
     const popupModal = usePopup({
         locale,
         stringKey,

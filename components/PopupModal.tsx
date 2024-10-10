@@ -6,7 +6,9 @@ import {TranslationProps} from "@/components/TranslatedText";
 import {insertTranslationFromForm, updateTranslationFromForm} from "@/app/actions";
 import {revalidatePath} from "next/cache";
 
-type ModalProps = TranslationProps & {
+type ModalProps = {
+    locale: string,
+    stringKey: string,
     variant: "insert" | "update"
     context: string
     fieldName: string

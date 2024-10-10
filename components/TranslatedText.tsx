@@ -4,14 +4,25 @@ import {EditTextButton} from "@/components/EditTextButton";
 import {EditButtonTypes} from "@/app/constants";
 import {CSSProperties} from "react";
 
-export type TranslationProps = {
-    isEditable?: boolean
-    locale: string
-    stringKey: string
-    fieldName: string
-    context: string
+type TranslationDisplayProps = {
+    locale: string,
+    stringKey: string,
     maxLength?: number
+    isForDisplay: true
+    fieldName?: never,
+    context?: never
+    isEditable?: never
 }
+type TranslationEditProps = {
+    locale: string,
+    stringKey: string,
+    maxLength?: number
+    isEditable: true,
+    context: string,
+    fieldName: string
+}
+
+export type TranslationProps = TranslationDisplayProps | TranslationEditProps
 export default async function TranslatedText({
                                                  locale,
                                                  stringKey,
@@ -28,14 +39,14 @@ export default async function TranslatedText({
     if (!translation || !translation.success)
         return (<div style={{color: 'red', ...containerStyles}}>
             {isEditable && <EditTextButton locale={locale} stringKey={stringKey} variant={EditButtonTypes.add}
-                                           context={context} fieldName={fieldName} value={""}/>}
+                                           context={context!!} fieldName={fieldName!!} value={""}/>}
             language:{locale} key:{stringKey}
         </div>)
 
     return (
         <div style={containerStyles}>
             {isEditable && <EditTextButton locale={locale} stringKey={stringKey} variant={EditButtonTypes.edit}
-                                           context={context} fieldName={fieldName} value={translation.translated}/>}
+                                           context={context!!} fieldName={fieldName!!} value={translation.translated}/>}
             {shortenIfMaxLength(translation.translated)}
         </div>
     )

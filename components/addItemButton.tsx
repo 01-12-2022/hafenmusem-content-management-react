@@ -20,7 +20,7 @@ export default function AddItemButton({ locale }: AddItemButtonProps) {
         stringKey: 'item_$_name',
         variant: {
             variant: 'create',
-            textKeyTemplate: 'item_$_name',
+            placeholderSymbol: '$',
             doAfterTextCreate
         }
     })

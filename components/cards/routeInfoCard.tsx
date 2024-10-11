@@ -1,9 +1,8 @@
-import { Card } from "@/components/ui/card";
-import TranslatedText from "@/components/TranslatedText";
-import React from "react";
 import { Item } from "@/app/db/dbTypes";
+import { getRouteInfo } from '@/app/db/extraInfos_db';
+import TranslatedText from "@/components/TranslatedText";
 import { AsyncReturnType } from "@/lib/utils";
-import { getRouteInfo } from '@/app/db/extraInfos_db'
+import DisplayCard from "./displaycard";
 
 type RouteInfoCardProps = {
     item: Item
@@ -14,7 +13,7 @@ type RouteInfoCardProps = {
 }
 export default function RouteInfoCard({ locale, routeData, routeContext, itemContext }: RouteInfoCardProps) {
 
-    return (<Card>
+    return (<DisplayCard>
         <TranslatedText textVariant={"h2"} locale={locale}
             stringKey={routeData.key}
             isForDisplay />
@@ -22,5 +21,5 @@ export default function RouteInfoCard({ locale, routeData, routeContext, itemCon
         <TranslatedText textVariant={"description"} locale={locale} stringKey={routeData.value}
             context={itemContext + "\n" + routeContext} fieldName="Item route Info"
             isEditable />
-    </Card>)
+    </DisplayCard>)
 }

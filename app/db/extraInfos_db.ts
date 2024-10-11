@@ -2,6 +2,7 @@
 import { Connection, RowDataPacket } from "mysql2/promise";
 import { Item } from "./dbTypes";
 import { createConnection } from '@/app/db/db'
+import { revalidatePath } from "next/cache";
 
 export async function getInformationCategoriesForItem(item: Item, locale: string, routeKey?: string) {
     const connection = await createConnection()
@@ -16,6 +17,14 @@ export async function getInformationCategoriesForItem(item: Item, locale: string
         routeData,
         infoCategories
     }
+}
+
+export async function insertInfoCategory(info_type: string, info_value: string, item_id: number) {
+    const connection = await createConnection()
+
+    const query = `insert into item_extra_info (item_id,info_type, info_value) values (?, ?, ?);`
+    await connection.execute(query, [item_id, info_type, info_value])
+    revalidatePath('/')
 }
 
 export async function getInfoCategoriesForItem(connection: Connection, itemId: number) {

@@ -9,7 +9,7 @@ type ModalProps = {
     text: string,
     onConfirm: () => void | Promise<void>
 }
-export default function useDeleteItemPopup({ text, onConfirm }: ModalProps) {
+export default function useCreateInfoCategoryPopup({ text, onConfirm }: ModalProps) {
     const [isVisible, setVisible] = useState(false)
     const router = useRouter()
 

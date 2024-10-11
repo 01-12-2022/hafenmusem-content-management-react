@@ -22,6 +22,11 @@ export default async function Page({ params, searchParams }: PageParams<{ id: st
     const info = await getInformationCategoriesForItem(item, locale, route)
     const routesOfItem = await getRoutesOfItem(itemId)
 
+    const getIsChecked = (routeKey: string) => {
+        if (!route) return false
+        return route === routeKey
+    }
+
     return <div className="container mx-auto p-4">
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <Link href="/items" passHref>
@@ -30,11 +35,12 @@ export default async function Page({ params, searchParams }: PageParams<{ id: st
                 </Button>
             </Link>
             {routesOfItem.map(r => (
-                <div key={r.id}>
-                    <input type={"checkbox"} name={"route 1"} className="mr-2" />
-                    {/*<TranslatedText locale={locale} stringKey={r.routeName} isForDisplay/>*/}
-                    <label>{r.routeKey}</label>
-                </div>
+                <Link href={`/items/${itemId}?route=${r.routeKey}`} key={r.id}>
+                    <div style={{ pointerEvents: 'none' }}>
+                        <input checked={getIsChecked(r.routeKey)} type={"checkbox"} name={"route 1"} className="mr-2" />
+                        <label>{r.routeKey}</label>
+                    </div>
+                </Link >
             ))}
         </div>
 

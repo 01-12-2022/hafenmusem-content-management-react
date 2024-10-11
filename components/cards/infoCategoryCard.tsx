@@ -11,7 +11,6 @@ type InfoCategoryProps = {
     itemContext: string
 }
 export default function InfoCategoryCard({ infoCategory, locale, itemContext }: InfoCategoryProps) {
-
     return (<DisplayCard>
         <TranslatedText textVariant={"h2"} locale={locale} stringKey={infoCategory.infoType} isEditable
             context={itemContext}

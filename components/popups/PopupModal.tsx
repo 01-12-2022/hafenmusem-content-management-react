@@ -7,7 +7,7 @@ import React, { CSSProperties, useEffect, useState } from "react";
 type ModalProps = {
     locale: string,
     stringKey: string,
-    variant: "insert" | "update" | { variant: 'create', textKeyTemplate: string, doAfterTextCreate: (elementName: string) => void }
+    variant: "insert" | "update" | { variant: 'create', placeholderSymbol: string, doAfterTextCreate: (elementName: string) => void }
     context: string
     fieldName: string
     oldValue?: string
@@ -28,7 +28,7 @@ export default function usePopup({ context, variant, oldValue, fieldName, locale
     }
 
     function escapeStringForSQL(input: string) {
-        const str = input.toLowerCase()
+        const str = input.toLowerCase().trim()
         return str
             .replace(/ /g, '_') //Escape spaces
             .replace(/\\/g, '\\\\')  // Escape backslashes
@@ -47,7 +47,7 @@ export default function usePopup({ context, variant, oldValue, fieldName, locale
         const updateFunction = (variant === "update") ? updateTranslationFromForm : insertTranslationFromForm;
 
         if (variant !== 'insert' && variant !== 'update') {
-            const sanitizedStringKey = stringKey.replace('$', newValue);
+            const sanitizedStringKey = stringKey.replace(variant.placeholderSymbol, newValue);
             await updateFunction(locale, sanitizedStringKey, data);
             variant.doAfterTextCreate(newValue)
         } else {

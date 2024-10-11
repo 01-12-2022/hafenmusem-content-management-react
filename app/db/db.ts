@@ -12,9 +12,9 @@ const pool = mysql.createPool({
     user,
     password,
     database,
-    connectionLimit: 30
+    connectionLimit: 100
 })
 
 export async function createConnection() {
-    return pool.getConnection();
+    return pool//.getConnection();
 }

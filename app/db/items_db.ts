@@ -26,7 +26,7 @@ export async function deleteItemFromDb(id: number) {
 
     revalidatePath('/')
 
-    connection.release()
+    // connection.release()
 }
 
 export async function insertItemIntoDb(itemName: string) {
@@ -37,7 +37,7 @@ export async function insertItemIntoDb(itemName: string) {
     connection.execute(query, [`${prefix}_name`, `${prefix}_description`])
     revalidatePath('/')
 
-    connection.release()
+    // connection.release()
 }
 
 export async function getSingleItemFromId(id: number): Promise<Item> {
@@ -54,7 +54,7 @@ export async function getSingleItemFromId(id: number): Promise<Item> {
     const values = [id]
 
     const data = (await connection.query<RowDataPacket[]>(query, values))[0]
-    connection.release()
+    // connection.release()
 
     return rowDataPacketToItem(data[0])
 }
@@ -73,7 +73,7 @@ export async function getItemsFromIds(itemIds: number[]): Promise<Item[]> {
     const values = [...itemIds]
 
     const data = (await connection.query<RowDataPacket[]>(query, values))[0]
-    connection.release()
+    // connection.release()
 
     return data.map(d => rowDataPacketToItem(d))
 }
@@ -90,7 +90,7 @@ export async function getAllItems(): Promise<Item[]> {
                     left join item_image as i on t.id = i.item_id;`
 
     const data = (await connection.query<RowDataPacket[]>(query))[0]
-    connection.release()
+    // connection.release()
 
     return data.map(d => rowDataPacketToItem(d))
 }

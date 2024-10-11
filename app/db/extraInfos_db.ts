@@ -10,7 +10,7 @@ export async function getInformationCategoriesForItem(item: Item, routeKey?: str
 
     const infoCategories = await getInfoCategoriesForItem(connection, item.id)
 
-    connection.release()
+    // connection.release()
 
     return {
         routeData,

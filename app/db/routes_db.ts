@@ -15,7 +15,7 @@ export async function getRoutesOfItem(itemId: number) {
 
     const data = (await connection.query<RowDataPacket[]>(routeInfoQuery, [itemId]))[0]
 
-    connection.release()
+    // connection.release()
 
     return data.map(d => ({
         id: d.id,

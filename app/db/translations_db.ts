@@ -12,7 +12,7 @@ export async function getTranslationFromDb(key: string, locale: string) {
     const values = [locale, key]
 
     const data = (await connection.query<RowDataPacket[]>(query, values))[0]
-    connection.release()
+    // connection.release()
 
     return {
         success: !!data[0],
@@ -27,7 +27,7 @@ export async function insertTranslation(key: string, locale: string, value: stri
     const values = [locale, key, value]
     const res = await connection.execute(query, values)
 
-    connection.release()
+    // connection.release()
     return res
 }
 
@@ -38,6 +38,6 @@ export async function updateTranslation(key: string, locale: string, newValue: s
     const values = [newValue, locale, key]
     const res = await connection.execute(query, values)
 
-    connection.release()
+    // connection.release()
     return res
 }

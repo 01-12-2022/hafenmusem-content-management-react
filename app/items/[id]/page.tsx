@@ -8,7 +8,6 @@ import {ArrowLeft} from "lucide-react";
 import React from "react";
 import {ItemPageContent} from "@/app/items/[id]/itemPageContent";
 import {getRoutesOfItem} from "@/app/db/routes_db";
-import TranslatedText from "@/components/TranslatedText";
 
 export default async function Page({params, searchParams}: PageParams<{ id: string }>) {
     const locale = searchParams.locale || 'de'
@@ -36,9 +35,8 @@ export default async function Page({params, searchParams}: PageParams<{ id: stri
                 </div>
             ))}
         </div>
-        {(item)
-            ? <ItemPageContent item={item} info={info} locale={locale} route={route}/>
-            : <div className="container mx-auto p-4">
+        {(!item)
+            ? <div className="container mx-auto p-4">
                 <h1 className="text-2xl font-bold mb-4">Item not found</h1>
                 <p>The requested item (ID: {itemId}) could not be found.</p>
                 <Link href="/" passHref>
@@ -47,6 +45,7 @@ export default async function Page({params, searchParams}: PageParams<{ id: stri
                     </Button>
                 </Link>
             </div>
+            : <ItemPageContent item={item} info={info} locale={locale} route={route}/>
         }
     </div>
 }

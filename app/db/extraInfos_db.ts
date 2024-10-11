@@ -18,7 +18,7 @@ export async function getInformationCategoriesForItem(item: Item, routeKey?: str
     }
 }
 
-async function getInfoCategoriesForItem(connection: Connection, itemId: number) {
+export async function getInfoCategoriesForItem(connection: Connection, itemId: number) {
     const infoQuery = `select info_type, info_value
                             from item_extra_info
                             where item_id = ?`
@@ -29,7 +29,7 @@ async function getInfoCategoriesForItem(connection: Connection, itemId: number) 
     }))
 }
 
-async function getRouteInfo(connection: Connection, itemId: number, routeKey: string) {
+export async function getRouteInfo(connection: Connection, itemId: number, routeKey: string) {
     const routeInfoQuery = `select info.info 
                                 from route_item_info as info 
                                 left join route on info.route_id = route.id

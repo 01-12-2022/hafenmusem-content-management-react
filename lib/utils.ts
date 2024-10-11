@@ -9,4 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 export type AsyncReturnType<T extends (...args: any) => Promise<any>> =
     T extends (...args: any) => Promise<infer R> ? R : any
 
+export type ArrayElement<ArrayType extends readonly unknown[]> =
+    ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+
 export const getContextForItem = (item: Item) => `Item: ${item.name.substring(item.name.indexOf("_") + 1, item.name.lastIndexOf("_"))}`

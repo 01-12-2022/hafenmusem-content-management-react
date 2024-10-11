@@ -2,7 +2,7 @@
 import {createConnection} from "./db";
 import {RowDataPacket} from "mysql2";
 
-export async function getTranslation(key: string, locale: string) {
+export async function getTranslationFromDb(key: string, locale: string) {
     const connection = await createConnection()
 
     const query = `select 

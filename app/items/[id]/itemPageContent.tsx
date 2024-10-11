@@ -1,13 +1,12 @@
 'use server'
-import Link from "next/link";
-import {Button} from "@/components/ui/button";
-import {ArrowLeft} from "lucide-react";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import TranslatedText from "@/components/TranslatedText";
+import {Card} from "@/components/ui/card";
 import React from "react";
 import {Item} from "@/app/db/dbTypes";
 import {getInformationCategoriesForItem} from "@/app/db/extraInfos_db";
 import {AsyncReturnType, getContextForItem} from "@/lib/utils";
+import ItemCard from "@/components/itemcard";
+import RouteInfoCard from "@/components/routeInfoCard";
+import InfoCategoryCard from "@/components/infoCategoryCard";
 
 type ItemPageContentProps = {
     locale: string
@@ -20,52 +19,22 @@ export async function ItemPageContent({locale, item, route, info}: ItemPageConte
     const itemContext = getContextForItem(item);
     const routeContext = `Route ${route}`
 
-    return (<>
-        <Card className="w-full max-w-3xl mx-auto">
-            <CardHeader>
-                <div className="flex justify-between items-start">
-                    <div>
-                        <CardTitle className="text-3xl mb-2">
-                            <TranslatedText locale={locale} stringKey={item.name} context={itemContext}
-                                            fieldName="Name" isEditable/>
-                        </CardTitle>
-                        <CardDescription className="text-lg">
-                            <TranslatedText locale={locale} stringKey={item.description} context={itemContext}
-                                            fieldName="Description" isEditable/>
-                        </CardDescription>
-                    </div>
+    return (<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30}}>
+        <ItemCard item={item} locale={locale}/>
 
-                </div>
-            </CardHeader>
-        </Card>
-
-        {/*route info card*/
-        }
         {
             !info.routeData
                 ? <Card>No Route Data!!</Card>
-                : <Card>
-                    <CardHeader>
-                        <TranslatedText locale={locale} stringKey={info.routeData.key} isForDisplay/>
-                    </CardHeader>
-                    <CardContent>
-                        <TranslatedText locale={locale} stringKey={info.routeData.value}
-                                        context={itemContext + "\n" + routeContext} fieldName="Item route Info"
-                                        isEditable
-                        />
-                    </CardContent>
-                </Card>
+                : <RouteInfoCard item={item} locale={locale}
+                                 itemContext={itemContext} routeContext={routeContext}
+                                 routeData={info.routeData}/>
         }
 
-        {/*info category card*/
-        }
+
         {
             info.infoCategories.map((ic, i) => (
-                <Card key={ic.infoType + i}>
-                    <CardHeader>{ic.infoType}</CardHeader>
-                    <CardDescription>{ic.infoValue}</CardDescription>
-                </Card>
+                <InfoCategoryCard key={ic.infoType + i} infoCategory={ic} locale={locale} itemContext={itemContext}/>
             ))
         }
-    </>)
+    </div>)
 }

@@ -4,9 +4,9 @@ import React from "react";
 import {Item} from "@/app/db/dbTypes";
 import {getInformationCategoriesForItem} from "@/app/db/extraInfos_db";
 import {AsyncReturnType, getContextForItem} from "@/lib/utils";
-import ItemCard from "@/components/itemcard";
-import RouteInfoCard from "@/components/routeInfoCard";
-import InfoCategoryCard from "@/components/infoCategoryCard";
+import ItemCard from "@/components/cards/itemcard";
+import RouteInfoCard from "@/components/cards/routeInfoCard";
+import InfoCategoryCard from "@/components/cards/infoCategoryCard";
 
 type ItemPageContentProps = {
     locale: string

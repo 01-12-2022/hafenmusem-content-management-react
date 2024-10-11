@@ -2,7 +2,7 @@ import TranslatedText from "@/components/TranslatedText";
 import React from "react";
 import {ArrayElement, AsyncReturnType} from "@/lib/utils";
 import {getInfoCategoriesForItem} from "@/app/db/extraInfos_db";
-import DisplayCard from "@/components/displaycard";
+import DisplayCard from "@/components/cards/displaycard";
 
 type InfoCategoryArray = AsyncReturnType<typeof getInfoCategoriesForItem>
 type InfoCategoryProps = {

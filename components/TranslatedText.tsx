@@ -34,14 +34,14 @@ export default async function TranslatedText({
                                                  maxLength
                                              }: TranslationProps) {
     const translation = await getTranslationFromDb(stringKey, locale);
-    const shortenIfMaxLength = (s: string) => (maxLength) ? `${s.substring(0, maxLength)}...` : s;
+    const shortenIfMaxLength = (s: string) => (maxLength && s.length > maxLength) ? `${s.substring(0, maxLength)}...` : s;
 
     const containerStyles: CSSProperties = {display: 'flex', flexDirection: 'row', justifyItems: 'center', gap: 5};
 
     if (!translation || !translation.success)
         return (<div style={{color: 'red', ...containerStyles}}>
             {isEditable && <EditTextButton locale={locale} stringKey={stringKey} variant={EditButtonTypes.add}
-                                           context={context!!} fieldName={fieldName!!} value={""}/>}
+                                           context={context} fieldName={fieldName} value={""}/>}
             <TextTypeWrapper textVariant={textVariant}>
                 language:{locale} key:{stringKey}
             </TextTypeWrapper>
@@ -50,7 +50,7 @@ export default async function TranslatedText({
     return (
         <div style={containerStyles}>
             {isEditable && <EditTextButton locale={locale} stringKey={stringKey} variant={EditButtonTypes.edit}
-                                           context={context!!} fieldName={fieldName!!} value={translation.translated}/>}
+                                           context={context} fieldName={fieldName} value={translation.translated}/>}
 
 
             <TextTypeWrapper textVariant={textVariant}>

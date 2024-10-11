@@ -18,9 +18,9 @@ export default function ItemCard({ item, locale, isForDisplay = false, maxLength
         : { context: itemContext, fieldName, isEditable: true as const }
 
     return (<DisplayCard>
-        <div className='w-full relative top-0 right-0'>
+        {!isForDisplay && <div className='w-full relative top-0 right-0'>
             <DeleteItemButton item={item} />
-        </div>
+        </div>}
         <TranslatedText textVariant={"h1"} locale={locale} stringKey={item.name}
             {...editProps("Name")} />
         <TranslatedText textVariant={"description"} locale={locale} stringKey={item.description}

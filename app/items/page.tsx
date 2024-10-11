@@ -10,6 +10,7 @@ export default async function Page({searchParams}: PageParams) {
     const locale = searchParams.locale || 'de'
 
     return (<>
+        <AddItemButton />
         <div style={{display: 'flex', flexDirection: 'column', gap: 30, padding: 30}}>
             {items.map(i => (
                 <Link key={i.id} href={`/items/${i.id}`}>

@@ -6,7 +6,7 @@
     "server": "next dev --port 41144",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 41144",
     "lint": "next lint"
   },
   "dependencies": {

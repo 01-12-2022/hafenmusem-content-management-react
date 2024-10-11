@@ -12,7 +12,8 @@ const pool = mysql.createPool({
     user,
     password,
     database,
-    connectionLimit: 100
+    connectionLimit: 10,
+    waitForConnections: true
 })
 
 export async function createConnection() {

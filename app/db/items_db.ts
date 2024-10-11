@@ -40,7 +40,7 @@ export async function insertItemIntoDb(itemName: string) {
     // connection.release()
 }
 
-export async function getSingleItemFromId(id: number): Promise<Item> {
+export async function getSingleItemFromId(id: number): Promise<Item | undefined> {
     const connection = await createConnection()
 
     const query = `select 
@@ -56,7 +56,7 @@ export async function getSingleItemFromId(id: number): Promise<Item> {
     const data = (await connection.query<RowDataPacket[]>(query, values))[0]
     // connection.release()
 
-    return rowDataPacketToItem(data[0])
+    return data[0] ? rowDataPacketToItem(data[0]) : undefined
 }
 
 export async function getItemsFromIds(itemIds: number[]): Promise<Item[]> {

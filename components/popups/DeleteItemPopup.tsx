@@ -1,21 +1,27 @@
 'use client'
+
 import { Card } from "@/components/ui/card";
-import { CloseIcon } from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 import React, { CSSProperties, useState } from "react";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 type ModalProps = {
     text: string,
-    onConfirm: () => void
+    onConfirm: () => void | Promise<void>
 }
 export default function useDeleteItemPopup({ text, onConfirm }: ModalProps) {
     const [isVisible, setVisible] = useState(false)
-    const [submittedValue, setSubmittedValue] = useState<string>()
+    const router = useRouter()
 
-    type ClickEvent = React.MouseEvent<HTMLDivElement, MouseEvent>
+    type ClickEvent = React.MouseEvent<HTMLDivElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>
     const hideModal = (e: ClickEvent | undefined) => {
         e?.stopPropagation()
         setVisible(false)
+    }
+
+    async function onSubmit() {
+        await onConfirm()
+        router.replace('/items')
     }
 
     const component =
@@ -24,11 +30,13 @@ export default function useDeleteItemPopup({ text, onConfirm }: ModalProps) {
             : (<>
                 <div style={styles.modalContainer} onClick={hideModal} />
                 <Card style={styles.modal}>
-                    <div>{text}</div>
-                    <div className='flex flex-row items-end'>
-                        <Button>OK</Button>
-                        <Button variant='destructive'>Cancel</Button>
-                    </div>
+                    <form action={onSubmit} className='flex flex-col gap-3 p-4'>
+                        <div>{text}</div>
+                        <div className='flex flex-row items-end self-end'>
+                            <Button type='submit' onClick={onSubmit}>OK</Button>
+                            <Button variant='destructive' onClick={hideModal}>Cancel</Button>
+                        </div>
+                    </form>
                 </Card>
             </>
             )
@@ -36,8 +44,7 @@ export default function useDeleteItemPopup({ text, onConfirm }: ModalProps) {
     return {
         isVisible,
         setVisible,
-        component,
-        submittedValue
+        component
     }
 }
 

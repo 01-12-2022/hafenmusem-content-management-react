@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 
 import { Item } from "@/app/db/dbTypes";
 import { deleteItemFromDb } from "@/app/db/items_db";
@@ -6,7 +6,7 @@ import { Trash2 } from "lucide-react";
 import useDeleteItemPopup from "./popups/DeleteItemPopup";
 import { Button } from "./ui/button";
 
-export default async function DeleteItemButton({ item }: { item: Item }) {
+export default function DeleteItemButton({ item }: { item: Item }) {
     const deleteItem = deleteItemFromDb.bind(null, item.id)
 
     const popup = useDeleteItemPopup({

@@ -8,10 +8,6 @@ import ItemCard from "@/components/cards/itemcard";
 import RouteInfoCard from "@/components/cards/routeInfoCard";
 import { AsyncReturnType, getContextForItem } from "@/lib/utils";
 
-type PreQueriedTextType = {
-    infoTypes: { infoType: string, infoValue: string }[]
-}
-
 type ItemPageContentProps = {
     locale: string
     item: Item

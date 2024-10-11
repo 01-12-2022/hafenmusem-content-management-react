@@ -5,7 +5,6 @@ import { Trash2 } from "lucide-react";
 import { InfoCategory } from "./cards/infoCategoryCard";
 import useDeleteItemPopup from "./popups/DeleteItemPopup";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
 
 export default function DeleteInfoCategoryButton({ category, itemId }: { category: InfoCategory, itemId: number }) {
     const deleteItem = deleteInfoCategory.bind(null, category, itemId)

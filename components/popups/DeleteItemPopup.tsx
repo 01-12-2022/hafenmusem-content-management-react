@@ -3,7 +3,6 @@
 import { Card } from "@/components/ui/card";
 import React, { CSSProperties, useState } from "react";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
 
 type ModalProps = {
     text: string,
@@ -11,7 +10,6 @@ type ModalProps = {
 }
 export default function useDeleteItemPopup({ text, onConfirm }: ModalProps) {
     const [isVisible, setVisible] = useState(false)
-    const router = useRouter()
 
     type ClickEvent = React.MouseEvent<HTMLDivElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>
     const hideModal = (e: ClickEvent | undefined) => {

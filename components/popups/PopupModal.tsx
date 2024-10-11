@@ -41,7 +41,10 @@ export default function usePopup({ context, variant, oldValue, fieldName, locale
     }
 
     async function onSubmit(data: FormData) {
-        const newValue = escapeStringForSQL(data.get('newValue')!!.toString());
+        const newValue1 = data.get('newValue')
+        if (newValue1 === null) throw new Error('No newValue in form data');
+
+        const newValue = escapeStringForSQL(newValue1.toString());
         setSubmittedValue(newValue);
 
         const updateFunction = (variant === "update") ? updateTranslationFromForm : insertTranslationFromForm;

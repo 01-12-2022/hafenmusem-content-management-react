@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "server": "next dev --port 41144",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

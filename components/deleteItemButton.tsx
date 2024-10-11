@@ -7,7 +7,7 @@ import useDeleteItemPopup from "./popups/DeleteItemPopup";
 import { Button } from "./ui/button";
 
 export default function DeleteItemButton({ item }: { item: Item }) {
-    const deleteItem = deleteItemFromDb.bind(null, item.id)
+    const deleteItem = deleteItemFromDb.bind(null, item)
 
     const popup = useDeleteItemPopup({
         text: 'Are you sure you want to delete this item?',

@@ -3,6 +3,7 @@ import { Connection, RowDataPacket } from "mysql2/promise";
 import { Item } from "./dbTypes";
 import { createConnection } from '@/app/db/db'
 import { revalidatePath } from "next/cache";
+import { InfoCategory } from "@/components/cards/infoCategoryCard";
 
 export async function getInformationCategoriesForItem(item: Item, locale: string, routeKey?: string) {
     const connection = await createConnection()
@@ -17,6 +18,18 @@ export async function getInformationCategoriesForItem(item: Item, locale: string
         routeData,
         infoCategories
     }
+}
+
+export async function deleteInfoCategory(infoCategory: InfoCategory, item_id: number) {
+    const connection = await createConnection()
+
+    const query = `delete from item_extra_info where item_id = ? and info_type = ?;`
+    await connection.execute(query, [item_id, infoCategory.infoType])
+
+    const query2 = `delete from t001 where text_key in (?,?);`
+    await connection.execute(query2, [infoCategory.infoType, infoCategory.infoValue])
+
+    revalidatePath('/')
 }
 
 export async function insertInfoCategory(info_type: string, info_value: string, item_id: number) {

@@ -28,7 +28,7 @@ export async function ItemPageContent({ locale, item, route, info }: ItemPageCon
 
         <div>
             <h1>Route Info</h1>
-            <hr className='mb-2'/>
+            <hr className='mb-2' />
             {
                 !info.routeData
                     ? <DisplayCard>No Route Selected.</DisplayCard>
@@ -44,7 +44,7 @@ export async function ItemPageContent({ locale, item, route, info }: ItemPageCon
             <AddInfoCategoryButton item={item} locale={locale} />
             {
                 info.infoCategories.map((ic, i) => (
-                    <InfoCategoryCard key={ic.infoType + i} infoCategory={ic} locale={locale} itemContext={itemContext} />
+                    <InfoCategoryCard key={ic.infoType + i} infoCategory={ic} locale={locale} item={item} />
                 ))
             }
         </div>

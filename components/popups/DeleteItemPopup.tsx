@@ -21,7 +21,8 @@ export default function useDeleteItemPopup({ text, onConfirm }: ModalProps) {
 
     async function onSubmit() {
         await onConfirm()
-        router.replace('/items')
+        // router.replace('/items')
+        hideModal(undefined)
     }
 
     const component =

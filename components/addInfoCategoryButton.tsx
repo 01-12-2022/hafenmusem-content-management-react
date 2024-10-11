@@ -14,7 +14,7 @@ export default function AddInfoCategoryButton({ item, locale }: AddInfoCategoryB
     const doAfterTextCreate = (elementName: string) => {
         // insertItemIntoDb(elementName)
         const typeName = `infotype_${elementName}`
-        const valueName = `extrainfo_${getItemNameFromNameKey(item)}_${elementName.match(/_(.*)/)!![1]}`
+        const valueName = `extrainfo_${getItemNameFromNameKey(item)}_${elementName}`
         insertInfoCategory(typeName, valueName, item.id)
     }
 

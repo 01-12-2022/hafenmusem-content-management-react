@@ -11,18 +11,24 @@ const rowDataPacketToItem = (d: RowDataPacket): Item => ({
     name: d.name
 })
 
-export async function deleteItemFromDb(id: number) {
+export async function deleteItemFromDb(item: Item) {
+    const { id, name, description } = item
+
     const connection = await createConnection()
     const values = [id]
 
     const query = `delete from testdata where id=?;`
     await connection.execute(query, values)
 
-    const query3 = `delete from item_extra_info where item_id = ?`
+    const query3 = `delete from item_extra_info where item_id = ?;`
     await connection.execute(query3, values)
 
-    const query2 = `delete from route_item_info where item_id = ?`
+    const query2 = `delete from route_item_info where item_id = ?;`
     await connection.execute(query2, values)
+
+    const query4 = `delete from t001 where text_key in (?,?);`
+    const values4 = [name, description]
+    await connection.execute(query4, values4)
 
     revalidatePath('/')
 

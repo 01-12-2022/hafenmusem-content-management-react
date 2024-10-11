@@ -1,17 +1,24 @@
-import TranslatedText from "@/components/TranslatedText";
-import React from "react";
-import { ArrayElement, AsyncReturnType } from "@/lib/utils";
+import { Item } from "@/app/db/dbTypes";
 import { getInfoCategoriesForItem } from "@/app/db/extraInfos_db";
 import DisplayCard from "@/components/cards/displaycard";
+import TranslatedText from "@/components/TranslatedText";
+import { ArrayElement, AsyncReturnType, getContextForItem } from "@/lib/utils";
+import DeleteInfoCategoryButton from "../deleteInfoCategoryButton";
 
 type InfoCategoryArray = AsyncReturnType<typeof getInfoCategoriesForItem>
+export type InfoCategory = ArrayElement<InfoCategoryArray>
+
 type InfoCategoryProps = {
-    infoCategory: ArrayElement<InfoCategoryArray>
+    infoCategory: InfoCategory
     locale: string
-    itemContext: string
+    item: Item
 }
-export default function InfoCategoryCard({ infoCategory, locale, itemContext }: InfoCategoryProps) {
+export default function InfoCategoryCard({ infoCategory, locale, item }: InfoCategoryProps) {
+    const itemContext = getContextForItem(item)
+
     return (<DisplayCard>
+        <DeleteInfoCategoryButton category={infoCategory} itemId={item.id} />
+
         <TranslatedText textVariant={"h2"} locale={locale} stringKey={infoCategory.infoType} isEditable
             context={itemContext}
             fieldName={"Info Category"} />

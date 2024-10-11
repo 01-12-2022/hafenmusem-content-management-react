@@ -1,4 +1,4 @@
-import {Connection, RowDataPacket} from "mysql2/promise";
+import {RowDataPacket} from "mysql2/promise";
 import {createConnection} from "@/app/db/db";
 
 
@@ -15,7 +15,7 @@ export async function getRoutesOfItem(itemId: number) {
 
     const data = (await connection.query<RowDataPacket[]>(routeInfoQuery, [itemId]))[0]
 
-    await connection.end()
+    connection.release()
 
     return data.map(d => ({
         id: d.id,

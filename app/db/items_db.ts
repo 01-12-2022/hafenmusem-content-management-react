@@ -24,7 +24,7 @@ export async function getSingleItemFromId(id: number): Promise<Item> {
     const values = [id]
 
     const data = (await connection.query<RowDataPacket[]>(query, values))[0]
-    await connection.end()
+    connection.release()
 
     return rowDataPacketToItem(data[0])
 }
@@ -43,7 +43,7 @@ export async function getItemsFromIds(itemIds: number[]): Promise<Item[]> {
     const values = [...itemIds]
 
     const data = (await connection.query<RowDataPacket[]>(query, values))[0]
-    await connection.end()
+    connection.release()
 
     return data.map(d => rowDataPacketToItem(d))
 }
@@ -60,7 +60,7 @@ export async function getAllItems(): Promise<Item[]> {
                     left join item_image as i on t.id = i.item_id;`
 
     const data = (await connection.query<RowDataPacket[]>(query))[0]
-    await connection.end()
+    connection.release()
 
     return data.map(d => rowDataPacketToItem(d))
 }

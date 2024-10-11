@@ -1,7 +1,8 @@
 'use server'
-import {RowDataPacket} from "mysql2"
-import {createConnection} from "./db"
-import {Item} from "./dbTypes"
+import { RowDataPacket } from "mysql2"
+import { createConnection } from "./db"
+import { Item } from "./dbTypes"
+import { revalidatePath } from "next/cache"
 
 const rowDataPacketToItem = (d: RowDataPacket): Item => ({
     id: d.id,
@@ -9,6 +10,35 @@ const rowDataPacketToItem = (d: RowDataPacket): Item => ({
     image: d.image,
     name: d.name
 })
+
+export async function deleteItemFromDb(id: number) {
+    const connection = await createConnection()
+    const values = [id]
+
+    const query = `delete from testdata where id=?;`
+    await connection.execute(query, values)
+
+    const query3 = `delete from item_extra_info where item_id = ?`
+    await connection.execute(query3, values)
+
+    const query2 = `delete from route_item_info where item_id = ?`
+    await connection.execute(query2, values)
+
+    revalidatePath('/')
+
+    connection.release()
+}
+
+export async function insertItemIntoDb(itemName: string) {
+    const connection = await createConnection()
+    const prefix = `item_${itemName}`
+
+    const query = `insert into testdata (name, description) values (?, ?);`
+    connection.execute(query, [`${prefix}_name`, `${prefix}_description`])
+    revalidatePath('/')
+
+    connection.release()
+}
 
 export async function getSingleItemFromId(id: number): Promise<Item> {
     const connection = await createConnection()

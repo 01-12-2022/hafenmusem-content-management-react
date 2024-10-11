@@ -1,7 +1,7 @@
 'use server'
-import {Connection, RowDataPacket} from "mysql2/promise";
-import {Item} from "./dbTypes";
-import {createConnection} from '@/app/db/db'
+import { Connection, RowDataPacket } from "mysql2/promise";
+import { Item } from "./dbTypes";
+import { createConnection } from '@/app/db/db'
 
 export async function getInformationCategoriesForItem(item: Item, routeKey?: string) {
     const connection = await createConnection()

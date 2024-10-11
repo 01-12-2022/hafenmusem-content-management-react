@@ -1,6 +1,6 @@
 'use server'
 import * as translations from '@/app/db/translations_db'
-import {revalidatePath} from "next/cache";
+import { revalidatePath } from "next/cache";
 
 export async function updateTranslationFromForm(locale: string, stringKey: string, formData: FormData) {
     const newString = formData.get('newValue')!!.toString()
@@ -11,6 +11,7 @@ export async function updateTranslationFromForm(locale: string, stringKey: strin
 
 export async function insertTranslationFromForm(locale: string, stringKey: string, formData: FormData) {
     const newString = formData.get('newValue')!!.toString()
+
     await translations.insertTranslation(stringKey, locale, newString)
     revalidatePath('/')
 }

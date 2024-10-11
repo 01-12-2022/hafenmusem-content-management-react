@@ -1,6 +1,6 @@
 'use server'
-import {createConnection} from "./db";
-import {RowDataPacket} from "mysql2";
+import { RowDataPacket } from "mysql2";
+import { createConnection } from "./db";
 
 export async function getTranslationFromDb(key: string, locale: string) {
     const connection = await createConnection()
@@ -16,7 +16,7 @@ export async function getTranslationFromDb(key: string, locale: string) {
 
     return {
         success: !!data[0],
-        translated: (data[0] || {text_value: key}).text_value as string
+        translated: (data[0] || { text_value: key }).text_value as string
     }
 }
 

@@ -1,8 +1,7 @@
 'use client'
-import {TranslationProps} from "@/components/TranslatedText";
-import {EditIcon, PlusIcon} from "lucide-react";
-import {EditButtonTypes as ButtonTypes} from "@/app/constants";
-import usePopup from "@/components/PopupModal";
+import { EditButtonTypes as ButtonTypes } from "@/app/constants";
+import usePopup from "@/components/popups/PopupModal";
+import { EditIcon, PlusIcon } from "lucide-react";
 
 type EditTextButtonProps = {
     fieldName: string,
@@ -14,13 +13,13 @@ type EditTextButtonProps = {
 }
 
 export function EditTextButton({
-                                   variant,
-                                   fieldName,
-                                   value,
-                                   context,
-                                   locale,
-                                   stringKey
-                               }: EditTextButtonProps) {
+    variant,
+    fieldName,
+    value,
+    context,
+    locale,
+    stringKey
+}: EditTextButtonProps) {
     const popupModal = usePopup({
         locale,
         stringKey,
@@ -35,8 +34,8 @@ export function EditTextButton({
     return <button onClick={showModal}>
 
         {variant === ButtonTypes.edit
-            ? <EditIcon/>
-            : <PlusIcon/>}
+            ? <EditIcon />
+            : <PlusIcon />}
 
         {popupModal?.component}
     </button>

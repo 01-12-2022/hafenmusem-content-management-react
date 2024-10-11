@@ -6,16 +6,21 @@ const port = +(process.env.SQL_PORT || "0")
 const user = process.env.SQL_USER
 const password = process.env.SQL_PASS
 const database = process.env.SQL_DB
-const pool = mysql.createPool({
-    host,
-    port,
-    user,
-    password,
-    database,
-    connectionLimit: 10,
-    waitForConnections: true
-})
+
+let pool: mysql.Pool
 
 export async function createConnection() {
-    return pool//.getConnection();
+
+    if (pool)
+        return pool//.getConnection();
+
+    pool = mysql.createPool({
+        host,
+        port,
+        user,
+        password,
+        database,
+        // waitForConnections: true,
+    })
+    return pool
 }

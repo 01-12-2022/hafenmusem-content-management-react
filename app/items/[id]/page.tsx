@@ -17,9 +17,9 @@ export default async function Page({ params, searchParams }: PageParams<{ id: st
     const itemId = params && params.id && params.id !== '' ? parseInt(params.id, 10) : 1;
 
     const item = await getSingleItemFromId(itemId);
-    if(!item) return <ItemMissingComponent itemId={itemId} />
-    
-    const info = await getInformationCategoriesForItem(item, route)
+    if (!item) return <ItemMissingComponent itemId={itemId} />
+
+    const info = await getInformationCategoriesForItem(item, locale, route)
     const routesOfItem = await getRoutesOfItem(itemId)
 
     return <div className="container mx-auto p-4">

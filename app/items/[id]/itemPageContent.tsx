@@ -8,14 +8,19 @@ import ItemCard from "@/components/cards/itemcard";
 import RouteInfoCard from "@/components/cards/routeInfoCard";
 import InfoCategoryCard from "@/components/cards/infoCategoryCard";
 
+type PreQueriedTextType = {
+    infoTypes: {infoType: string, infoValue: string}[]
+}
+
 type ItemPageContentProps = {
     locale: string
     item: Item
     route?: string
     info: AsyncReturnType<typeof getInformationCategoriesForItem>
+    preQueriedTexts?: PreQueriedTextType
 }
 
-export async function ItemPageContent({locale, item, route, info}: ItemPageContentProps) {
+export async function ItemPageContent({locale, item, route, info, preQueriedTexts}: ItemPageContentProps) {
     const itemContext = getContextForItem(item);
     const routeContext = `Route ${route}`
 

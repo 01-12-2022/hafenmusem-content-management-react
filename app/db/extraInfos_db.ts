@@ -3,7 +3,7 @@ import { Connection, RowDataPacket } from "mysql2/promise";
 import { Item } from "./dbTypes";
 import { createConnection } from '@/app/db/db'
 
-export async function getInformationCategoriesForItem(item: Item, routeKey?: string) {
+export async function getInformationCategoriesForItem(item: Item, locale: string, routeKey?: string) {
     const connection = await createConnection()
 
     const routeData = (!!routeKey) ? await getRouteInfo(connection, item.id, routeKey) : undefined
